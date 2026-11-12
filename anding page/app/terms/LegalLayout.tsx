@@ -1,3 +1,4 @@
+import "../market.css";
 import Link from "next/link";
 
 export function LegalLayout({
