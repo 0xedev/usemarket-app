@@ -374,8 +374,13 @@ export function createMarket(host: HTMLElement, onReady: () => void): () => void
   const small = window.matchMedia("(max-width: 760px)").matches;
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.75 : 2));
+  // Start sharp; step the resolution down only if this device can't hold a smooth frame rate.
+  const maxDpr = Math.min(window.devicePixelRatio || 1, small ? 1.75 : 2);
+  const dprSteps = [maxDpr, 1.5, 1.25, 1].filter((v, i) => i === 0 || v < maxDpr);
+  let dprStep = 0, slow = 0, frames = 0;
+  renderer.setPixelRatio(maxDpr);
   renderer.shadowMap.enabled = true;
+  renderer.shadowMap.autoUpdate = false;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.12;
@@ -951,7 +956,18 @@ export function createMarket(host: HTMLElement, onReady: () => void): () => void
       bd.r.rotation.z = -flap;
     }
 
+    // Shadows are redrawn every other frame; nothing moves fast enough to show it.
+    renderer.shadowMap.needsUpdate = force || frames % 2 === 0;
     renderer.render(scene, camera);
+    frames++;
+    if (!force && frames > 30) {
+      slow = dt > 1 / 42 ? slow + 1 : Math.max(0, slow - 1);
+      if (slow > 45 && dprStep < dprSteps.length - 1) {
+        slow = 0;
+        renderer.setPixelRatio(dprSteps[++dprStep]);
+        resize();
+      }
+    }
     if (!started) {
       started = true;
       onReady();

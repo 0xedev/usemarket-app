@@ -89,6 +89,10 @@ const RIDER_POINTS = [
 export default function Home() {
   return (
     <div className="lp">
+      <link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      <link rel="preload" href="/market-poster.webp" as="image" media="(min-width: 861px)" />
+      <link rel="preload" href="/market-poster-mobile.webp" as="image" media="(max-width: 860px)" />
       <Effects />
 
       <header className="lp-nav">
