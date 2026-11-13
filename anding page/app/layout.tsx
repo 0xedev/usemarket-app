@@ -3,6 +3,7 @@ import "./globals.css";
 import { CITIES, SITE_URL, SOCIAL_IMAGE, jsonLd } from "../lib/site";
 
 export const metadata: Metadata = {
+  verification: { other: { "msvalidate.01": "6BF48977827B9C8322D95E420FA9FC6D" } },
   metadataBase: new URL("https://usemarket.store"),
   title: {
     default: "usemarket | Local Food & Grocery Delivery in Nigeria",
