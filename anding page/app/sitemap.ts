@@ -1,16 +1,10 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl = "https://usemarket.store";
-const publicPages = [
-  "/",
-  "/terms",
-  "/terms/customers",
-  "/terms/vendors",
-  "/terms/riders",
-];
+import { PUBLIC_PAGES } from "../lib/public-pages";
+import { SITE_URL } from "../lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return publicPages.map((path) => ({
-    url: `${siteUrl}${path}`,
+  return PUBLIC_PAGES.map(({path, modified}) => ({
+    url: `${SITE_URL}${path}`,
+    ...(modified ? { lastModified: modified } : {}),
   }));
 }

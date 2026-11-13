@@ -1,4 +1,7 @@
 import "./landing.css";
+import "./information.css";
+import { APP_URLS, SITE_URL, jsonLd } from "../lib/site";
+import { INFO_PAGES } from "../lib/content";
 import Effects from "./Effects";
 import MarketScene from "./scene/MarketScene";
 
@@ -87,8 +90,15 @@ const RIDER_POINTS = [
 ] as const;
 
 export default function Home() {
+  const schema = {
+    "@context": "https://schema.org", "@graph": [
+      { "@type": "WebPage", "@id": `${SITE_URL}/#webpage`, url: `${SITE_URL}/`, name: "usemarket | Local Food & Grocery Delivery in Nigeria", description: "Shop local food, groceries and everyday goods in Ibadan, Akure and Sango Ota.", isPartOf: { "@id": `${SITE_URL}/#website` }, about: { "@id": `${SITE_URL}/#organization` }, inLanguage: "en-NG" },
+      ...Object.entries(APP_URLS).map(([role, url]) => ({ "@type": "MobileApplication", "@id": `${SITE_URL}/#${role}-app`, name: `usemarket ${role} app`, operatingSystem: "Android", applicationCategory: role === "customer" ? "ShoppingApplication" : "BusinessApplication", downloadUrl: url, url, publisher: { "@id": `${SITE_URL}/#organization` } })),
+    ],
+  };
   return (
     <div className="lp">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
       <link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       <link rel="preload" href="/market-poster.webp" as="image" media="(min-width: 861px)" />
@@ -137,6 +147,13 @@ export default function Home() {
             </ul>
           ))}
         </div>
+
+        <section className="lp-introduction" aria-labelledby="about-usemarket">
+          <div className="lp-wrap">
+            <h2 id="about-usemarket">usemarket brings your local market to your door.</h2>
+            <div><p>usemarket is a Nigerian local commerce platform operated by USEMARKET LTD. Shop food, groceries, pharmacy essentials and everyday goods from local vendors in Ibadan, Akure and Sango Ota.</p><p>Order in the Android app or on WhatsApp. Shops and delivery options depend on your address.</p><a href="/about">Meet usemarket</a>{" · "}<a href="/delivery-areas">Check delivery areas</a></div>
+          </div>
+        </section>
 
         <section className="lp-how" id="how">
           <div className="lp-wrap">
@@ -261,9 +278,11 @@ export default function Home() {
         <div className="lp-wrap">
           <Brand />
           <nav aria-label="Footer">
+            {INFO_PAGES.map(page => <a key={page.path} href={page.path}>{page.label}</a>)}
             <a href="/terms">Terms</a>
             <a href="https://policy.usemarket.store">Privacy policy</a>
             <a href="mailto:support@usemarket.store">Contact support</a>
+            <a href="/sitemap">Sitemap</a>
           </nav>
           <address>Area 1, Providence Estate, Eleyele, Ibadan, Oyo State, Nigeria.</address>
         </div>

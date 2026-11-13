@@ -1,3 +1,4 @@
+import { SOCIAL_IMAGE } from "../../../lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalLayout } from "../LegalLayout";
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
     "Read usemarket's rider terms for eligibility, delivery duties, safety, handovers, earnings, tips and account conduct.",
   alternates: { canonical: "/terms/riders" },
   openGraph: {
+    images: [SOCIAL_IMAGE],
     type: "website",
     siteName: "usemarket",
     locale: "en_NG",
@@ -17,7 +19,8 @@ export const metadata: Metadata = {
       "Terms for rider eligibility, safe delivery work, handovers, earnings and tips on usemarket.",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    images: [SOCIAL_IMAGE],
     title: "usemarket Rider Terms",
     description:
       "Terms for rider eligibility, safe delivery work, handovers, earnings and tips on usemarket.",

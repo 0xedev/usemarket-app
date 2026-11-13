@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { CITIES, SITE_URL, SOCIAL_IMAGE, jsonLd } from "../lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://usemarket.store"),
   title: {
-    default: "usemarket | Local shopping, delivered",
+    default: "usemarket | Local Food & Grocery Delivery in Nigeria",
     template: "%s | usemarket",
   },
   description:
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      maxImagePreview: "large",
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
   openGraph: {
@@ -27,13 +30,15 @@ export const metadata: Metadata = {
     siteName: "usemarket",
     locale: "en_NG",
     url: "https://usemarket.store/",
-    title: "usemarket | Local shopping, delivered",
+    images: [SOCIAL_IMAGE],
+    title: "usemarket | Local Food & Grocery Delivery in Nigeria",
     description:
       "Shop groceries, food, pharmacy essentials and everyday goods from local stores in Ibadan, Akure and Sango Ota.",
   },
   twitter: {
-    card: "summary",
-    title: "usemarket | Local shopping, delivered",
+    card: "summary_large_image",
+    images: [SOCIAL_IMAGE],
+    title: "usemarket | Local Food & Grocery Delivery in Nigeria",
     description:
       "Shop groceries, food, pharmacy essentials and everyday goods from local stores in Ibadan, Akure and Sango Ota.",
   },
@@ -55,10 +60,16 @@ const structuredData = {
     {
       "@type": "Organization",
       "@id": "https://usemarket.store/#organization",
-      name: "USEMARKET LTD",
-      alternateName: "usemarket",
+      name: "usemarket",
+      legalName: "USEMARKET LTD",
+      alternateName: ["useMarket", "use market"],
+      description: "Nigerian local commerce platform connecting customers, local vendors and delivery riders in Ibadan, Akure and Sango Ota.",
       url: "https://usemarket.store/",
-      logo: "https://usemarket.store/usemarket-logo.png",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/usemarket-logo.png`, width: 512, height: 512 },
+      image: SOCIAL_IMAGE.url,
+      email: "support@usemarket.store",
+      contactPoint: [{ "@type": "ContactPoint", contactType: "customer support", email: "support@usemarket.store", url: `${SITE_URL}/contact`, availableLanguage: ["English"] }],
+      areaServed: CITIES.map(city => ({ "@type": "City", name: city.name, containedInPlace: { "@type": "AdministrativeArea", name: city.region } })),
       address: {
         "@type": "PostalAddress",
         streetAddress: "Area 1, Providence Estate, Eleyele",
@@ -72,6 +83,7 @@ const structuredData = {
       "@id": "https://usemarket.store/#website",
       url: "https://usemarket.store/",
       name: "usemarket",
+      alternateName: "useMarket",
       publisher: { "@id": "https://usemarket.store/#organization" },
       inLanguage: "en-NG",
     },
@@ -89,7 +101,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+            __html: jsonLd(structuredData),
           }}
         />
         {children}

@@ -1,3 +1,4 @@
+import { SOCIAL_IMAGE } from "../../../lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalLayout } from "../LegalLayout";
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
     "Read usemarket's customer terms for orders, payments, substitutions, delivery, cancellations, refunds and support.",
   alternates: { canonical: "/terms/customers" },
   openGraph: {
+    images: [SOCIAL_IMAGE],
     type: "website",
     siteName: "usemarket",
     locale: "en_NG",
@@ -17,7 +19,8 @@ export const metadata: Metadata = {
       "Terms for ordering, paying, receiving deliveries, cancelling orders and getting support on usemarket.",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    images: [SOCIAL_IMAGE],
     title: "usemarket Customer Terms",
     description:
       "Terms for ordering, paying, receiving deliveries, cancelling orders and getting support on usemarket.",
